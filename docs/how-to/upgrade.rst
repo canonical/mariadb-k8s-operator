@@ -1,5 +1,5 @@
 .. meta::
-   :description: How to upgrade the __charm_name__ charm to a new revision.
+   :description: How to upgrade the MariaDB K8s Operator charm to a new revision.
 
 .. _how_to_upgrade:
 

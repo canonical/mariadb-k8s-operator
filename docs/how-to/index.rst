@@ -1,5 +1,5 @@
 .. meta::
-   :description: How-to guides for operating the __charm_name__ charm, including basic operations, upgrades, and development. 
+   :description: How-to guides for operating the MariaDB K8s Operator charm, including basic operations, upgrades, and development. 
 
 .. _how_to_index:
 
@@ -20,7 +20,7 @@ How-to guides
          More examples of subsections: Initial setup, Security
 
 
-Manage the full operations lifecycle of the __charm_name__ charm, from initial deployment
+Manage the full operations lifecycle of the MariaDB K8s Operator charm, from initial deployment
 through production maintenance.
 Each guide assumes that you've already deployed the charm with Juju.
 
@@ -44,7 +44,7 @@ Update and refresh
 ------------------
 
 Backups, redeployments, and upgrades ensure the
-__charm_name__ charm stays current and benefits from new features
+MariaDB K8s Operator charm stays current and benefits from new features
 and capabilities.
 
 .. toctree::

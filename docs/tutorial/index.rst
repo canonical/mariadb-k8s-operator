@@ -1,5 +1,5 @@
 .. meta::
-   :description: Follow step-by-step tutorials to deploy and operate the __charm_name__ charm. 
+   :description: Follow step-by-step tutorials to deploy and operate the MariaDB K8s Operator charm. 
 
 .. _tutorial_index:
 
@@ -9,7 +9,7 @@ Tutorial
 .. TODO: Update the charm name, and check that the toctree entries are up-to-date.
 
 This section contains a step-by-step guide to help you start exploring
-how to install and use the __charm_name__ operator. Our tutorials aim to
+how to install and use the MariaDB K8s Operator operator. Our tutorials aim to
 provide an end-to-end learning experience as you get started with the charm.
 
 Get started

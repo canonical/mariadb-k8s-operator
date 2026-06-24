@@ -1,15 +1,15 @@
 .. meta::
-   :description: Release notes for all versions of the __charm_name__ charm, including release policy and schedule.
+   :description: Release notes for all versions of the MariaDB K8s Operator charm, including release policy and schedule.
 
 .. _release_notes_index:
 
-.. Remember to update this file for your charm -- replace __charm_name__ with the appropriate name,
+.. Remember to update this file for your charm -- replace MariaDB K8s Operator with the appropriate name,
    specify the track the release notes will follow, and include a link on how to upgrade.
 
 Release notes
 =============
 
-Release notes for the <main> track of __charm_name__, summarizing new features,
+Release notes for the <main> track of MariaDB K8s Operator, summarizing new features,
 bug fixes and backwards-incompatible changes in each revision.
 
 For upgrading the charm, see :ref:`How to upgrade <how_to_upgrade>`.

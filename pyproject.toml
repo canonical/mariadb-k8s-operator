@@ -2,9 +2,9 @@
 # See LICENSE file for licensing details.
 
 [project]
-name = "platform-engineering-charm-template"
+name = "mariadb-k8s"
 version = "0.0.0"
-description = "A very short one-line summary of the charm."
+description = "Deploys and manages MariaDB 10.6 on Kubernetes."
 readme = "README.md"
 requires-python = ">=3.12"
 classifiers = [
@@ -15,6 +15,7 @@ classifiers = [
 ]
 dependencies = [
   "ops==3.7.1",
+  "pydantic>=2.0.0",
 ]
 
 [dependency-groups]
@@ -35,6 +36,7 @@ lint = [
 unit = [
   "coverage[toml]",
   "ops[testing]",
+  "pydantic>=2.0.0",
   "pytest",
 ]
 coverage-report = [

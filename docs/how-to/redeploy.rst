@@ -1,5 +1,5 @@
 .. meta::
-   :description: How to redeploy the __charm_name__ charm when migrating it to a new environment or instance.
+   :description: How to redeploy the MariaDB K8s Operator charm when migrating it to a new environment or instance.
 
 .. _how_to_redeploy:
 

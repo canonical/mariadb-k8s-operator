@@ -1,5 +1,5 @@
 .. meta::
-   :description: Understand the architectural design decisions and code structure of the __charm_name__ charm.
+   :description: Understand the architectural design decisions and code structure of the MariaDB K8s Operator charm.
 
 .. _explanation_charm_design:
 

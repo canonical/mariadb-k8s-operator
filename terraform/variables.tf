@@ -4,7 +4,7 @@
 variable "app_name" {
   description = "Name of the application in the Juju model."
   type        = string
-  default     = "netbox-k8s"
+  default     = "mariadb-k8s"
 }
 
 variable "base" {
@@ -20,7 +20,7 @@ variable "channel" {
 }
 
 variable "config" {
-  description = "Application config. Details about available options can be found at https://charmhub.io/netbox-k8s/configurations."
+  description = "Application config. Details about available options can be found at https://charmhub.io/mariadb-k8s/configure."
   type        = map(string)
   default     = {}
 }

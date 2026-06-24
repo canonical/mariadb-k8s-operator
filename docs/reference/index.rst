@@ -1,5 +1,5 @@
 .. meta::
-   :description: Technical reference documentation for the __charm_name__ charm, including actions, configurations, and architecture.
+   :description: Technical reference documentation for the MariaDB K8s Operator charm, including actions, configurations, and architecture.
 
 .. _reference_index:
 
@@ -11,7 +11,7 @@ Reference
          Define themes and subsections based on the charm's unique needs and features.
          Provide 1-2 sentence introductions for each subsection.
 
-This section contains technical details and information about the __charm_name__ charm.
+This section contains technical details and information about the MariaDB K8s Operator charm.
 
 Charm usage
 -----------

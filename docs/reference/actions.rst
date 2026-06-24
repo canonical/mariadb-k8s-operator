@@ -1,5 +1,5 @@
 .. meta::
-   :description: Reference documentation for all actions available in the __charm_name__ charm.
+   :description: Reference documentation for all actions available in the MariaDB K8s Operator charm.
 
 .. _reference_actions:
 

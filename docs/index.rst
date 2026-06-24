@@ -1,11 +1,11 @@
 .. meta::
-   :description: Discover the __charm_name__ charm, a Juju operator that deploys and manages __charm_name__.
+   :description: Discover the MariaDB K8s Operator charm, a Juju operator that deploys and manages MariaDB K8s Operator.
 
 .. vale Canonical.007-Headings-sentence-case = NO
 
 .. _index:
 
-__charm_name__ operator
+MariaDB K8s Operator operator
 ========================
 
 .. vale Canonical.007-Headings-sentence-case = YES
@@ -14,24 +14,24 @@ __charm_name__ operator
    Add a 1-2 sentence description of what the charm software does.
 
 A `Juju <https://juju.is/>`_ `charm <https://documentation.ubuntu.com/juju/3.6/reference/charm/>`_
-deploying and managing <Charm software> on <Kubernetes, VMs, or both>. 
+deploying and managing MariaDB 10.6 on Kubernetes.. 
 
 .. TODO: A paragraph of 2-5 short sentences, that describes what the product does
    and what need the product meets.
 
 Like any Juju charm, this charm supports one-line deployment, configuration, integration,
 scaling, and more. 
-For __charm_name__, this includes:
+For MariaDB K8s Operator, this includes:
 
 * list or summary of app-specific features
 
-The __charm_name__ charm allows for deployment on many different Kubernetes platforms,
+The MariaDB K8s Operator charm allows for deployment on many different Kubernetes platforms,
 from `MicroK8s <https://microk8s.io/>`_ to 
 `Charmed Kubernetes <https://ubuntu.com/kubernetes>`_ to public cloud Kubernetes offerings.
 
 .. TODO: Finally, a paragraph that describes whom the product is useful for.
 
-This charm will make operating <Charm software> simple and straightforward for DevOps or
+This charm will make operating MariaDB K8s simple and straightforward for DevOps or
 SRE teams through Juju's clean interface. 
 
 In this documentation
@@ -87,8 +87,8 @@ How this documentation is organized
 
 This documentation uses the `Diátaxis documentation structure <https://diataxis.fr/>`_.
 
-- The :ref:`Tutorial <tutorial_index>` takes you step-by-step through a basic deployment of the <Charm software> charm.
-- :ref:`How-to guides <how_to_index>` assume you have basic familiarity with the <Charm software> charm. Learn more about setting up, using, maintaining, and contributing to this charm.
+- The :ref:`Tutorial <tutorial_index>` takes you step-by-step through a basic deployment of the MariaDB K8s charm.
+- :ref:`How-to guides <how_to_index>` assume you have basic familiarity with the MariaDB K8s charm. Learn more about setting up, using, maintaining, and contributing to this charm.
 - :ref:`Reference <reference_index>` provides a guide to actions, configurations, relations, and other technical details.
 - :ref:`Explanation <explanation_index>` includes topic overviews, background and context and detailed discussion.
 - :ref:`Release notes <release_notes_index>` holds all the release notes for the charm, including any system or upgrade requirements.
@@ -109,7 +109,7 @@ file a bug.
 Project and community
 ---------------------
 
-The __charm_name__ Operator is a member of the Ubuntu family. It's an open-source project that warmly welcomes community 
+The MariaDB K8s Operator Operator is a member of the Ubuntu family. It's an open-source project that warmly welcomes community 
 projects, contributions, suggestions, fixes, and constructive feedback.
 
 Governance and policies
@@ -129,7 +129,7 @@ Releases
 
 - :ref:`Release notes <release_notes_index>`
 
-Thinking about using the __charm_name__ Operator for your next project? 
+Thinking about using the MariaDB K8s Operator Operator for your next project? 
 `Get in touch <https://matrix.to/#/#charmhub-charmdev:ubuntu.com>`_!
 
 .. vale Canonical.013-Spell-out-numbers-below-10 = NO

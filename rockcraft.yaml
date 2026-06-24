@@ -1,0 +1,34 @@
+# Copyright 2025 Canonical Ltd.
+# See LICENSE file for licensing details.
+
+name: mariadb
+base: ubuntu@22.04
+build-base: ubuntu@22.04
+version: "10.6"
+summary: MariaDB 10.6 database server
+description: |
+  OCI image for MariaDB 10.6, used with the mariadb-k8s charm.
+  Pebble manages the mariadb service; the startup script handles
+  first-boot initialisation of the data directory.
+license: GPL-2.0
+
+platforms:
+  amd64:
+
+parts:
+  mariadb-packages:
+    plugin: nil
+    stage-packages:
+      - mariadb-server
+      - mariadb-client
+      - pwgen
+      - procps
+
+  startup-script:
+    plugin: dump
+    source: scripts/
+    organize:
+      start-mariadb.sh: usr/local/bin/start-mariadb.sh
+    permissions:
+      - path: usr/local/bin/start-mariadb.sh
+        mode: "755"
