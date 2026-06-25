@@ -1,6 +1,13 @@
 # MariaDB K8s Operator
 <!-- Use this space for badges -->
 
+> **⚠️ Experimental — not for production use**
+>
+> This charm is under active development and intended solely as a **temporary placeholder**
+> to support the [Frappe HRMS K8s charm](https://github.com/canonical/frappe-hrms-k8s-operator)
+> while it awaits native PostgreSQL / MySQL support. It is **not** a general-purpose MariaDB
+> operator and should not be relied upon in production environments.
+
 A Kubernetes charm that deploys and manages [MariaDB 10.6](https://mariadb.org/) via Pebble on any Juju K8s substrate.
 
 Like any Juju charm, this charm supports one-line deployment, configuration, integration, scaling, and more. For the MariaDB K8s Operator, this includes:

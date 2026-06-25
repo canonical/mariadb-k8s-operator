@@ -10,59 +10,40 @@
 
 .. vale Canonical.007-Headings-sentence-case = YES
 
-.. TODO: A single sentence that says what the product is, succinctly and memorably.
-   Add a 1-2 sentence description of what the charm software does.
+.. warning::
+
+   **Experimental — not for production use.**
+
+   This charm is under active development and is a **temporary placeholder**
+   built specifically for the
+   `Frappe HRMS K8s charm <https://github.com/canonical/frappe-hrms-k8s-operator>`_
+   while Frappe HRMS awaits native PostgreSQL / MySQL support.
+   It is not a general-purpose MariaDB operator and will be retired once
+   Frappe HRMS gains first-class support for a supported database backend.
 
 A `Juju <https://juju.is/>`_ `charm <https://documentation.ubuntu.com/juju/3.6/reference/charm/>`_
-deploying and managing MariaDB 10.6 on Kubernetes.
-
-.. TODO: A paragraph of 2-5 short sentences, that describes what the product does
-   and what need the product meets.
+deploying and managing MariaDB 10.6 on Kubernetes as a temporary database backend
+for the `Frappe HRMS K8s charm <https://github.com/canonical/frappe-hrms-k8s-operator>`_.
 
 Like any Juju charm, this charm supports one-line deployment, configuration, integration,
-scaling, and more. 
+scaling, and more.
 For ``mariadb-k8s``, this includes:
 
-* list or summary of app-specific features
+* Automated first-boot initialisation of the MariaDB data directory
+* Secure auto-generated root password stored as a Juju secret
+* On-demand database and user provisioning via the ``database`` relation (``mysql_client`` interface)
+* Idempotent reconciliation — no ``defer()`` required
 
-The ``mariadb-k8s`` charm allows for deployment on many different Kubernetes platforms,
-from `MicroK8s <https://microk8s.io/>`_ to 
+The ``mariadb-k8s`` charm can be deployed on any Juju Kubernetes substrate,
+from `MicroK8s <https://microk8s.io/>`_ to
 `Charmed Kubernetes <https://ubuntu.com/kubernetes>`_ to public cloud Kubernetes offerings.
 
-.. TODO: Finally, a paragraph that describes whom the product is useful for.
-
-This charm will make operating MariaDB K8s simple and straightforward for DevOps or
-SRE teams through Juju's clean interface. 
+This charm is intended for use by teams running
+`Frappe HRMS <https://frappehr.com/>`_ on Kubernetes via Juju who need a lightweight
+MariaDB backend while awaiting official PostgreSQL or MySQL support upstream.
 
 In this documentation
 ---------------------
-
-.. TODO: Use the table below as a starting place.
-   You don't need to include all of the rows if they're not relevant to the charm
-   or if the docs don't exist. Use the vertical line symbol | to separate pages.
-   
-   When linking a how-to guide, use a verb to indicate an action/task. When
-   linking reference or explanation material, use gerunds or nouns.
-
-   Use "Get started" to highlight one or more tutorials. This row touches
-   on the "point of entry" domain.
-
-   For Deployment and Operations, place the most important/common use cases first.
-   If there are no meaningful Day 0/1 operations, drop "Deployment" from the table.
-   If there are no meaningful Day 2 operations, drop "Operations" from the table.
-   These rows touch on the domain of "lifecycle".
-   
-   Use the "Product-specific feature" row to highlight any 
-   major selling points of the charm -- what's the value proposition of this charm?
-
-   Use the "Design" row to showcase architecture and design-related documentation
-   for this charm. This row touches on the domain of "conceptual or stack layers".
-   
-   If possible, include a row that touches on the "quality" domain (security, performance).
-
-   Another charm-specific row to consider is "Integrations", especially if the
-   charm is meant to work in the context of a larger deployment. The "Integrations"
-   row touches on the domain of "interfaces".
 
 .. list-table::
     :header-rows: 1
@@ -75,8 +56,6 @@ In this documentation
       - Relevant how-to guides and reference pages (related to initial setup, configurations, and customization)
     * - Operations
       - Relevant how-to guides and reference pages (examples: integrate with COS, backup/restore, redeploy, upgrade)
-    * - Product-specific feature
-      - Relevant guides and pages
     * - Design
       - :ref:`Architecture <reference_charm_architecture>` | :ref:`Design <explanation_charm_design>`
     * - Security
@@ -101,15 +80,13 @@ to the documentation as the code. As such, we welcome community contributions, s
 constructive feedback on our documentation.
 See :ref:`How to contribute <how_to_contribute>` for more information.
 
-If there's a particular area of documentation that you'd like to see that's missing, please 
-file a bug.
-
-.. TODO: Add link to GitHub issues page for "file a bug"
+If there's a particular area of documentation that you'd like to see that's missing, please
+`file a bug <https://github.com/canonical/mariadb-k8s-operator/issues>`_.
 
 Project and community
 ---------------------
 
-The ``mariadb-k8s`` operator is a member of the Ubuntu family. It's an open-source project that warmly welcomes community 
+The ``mariadb-k8s`` operator is a member of the Ubuntu family. It's an open-source project that warmly welcomes community
 projects, contributions, suggestions, fixes, and constructive feedback.
 
 Governance and policies
@@ -129,7 +106,7 @@ Releases
 
 - :ref:`Release notes <release_notes_index>`
 
-Thinking about using the ``mariadb-k8s`` operator for your next project? 
+Thinking about using the ``mariadb-k8s`` operator for your next project?
 `Get in touch <https://matrix.to/#/#charmhub-charmdev:ubuntu.com>`_!
 
 .. vale Canonical.013-Spell-out-numbers-below-10 = NO

@@ -16,6 +16,13 @@ links:
   contact: https://launchpad.net/~canonical-is-devops
 
 description: |
+  **Experimental charm — not for production use.**
+
+  This charm is a temporary placeholder developed specifically to support the
+  Frappe HRMS K8s charm while it awaits native PostgreSQL / MySQL support.
+  It is not a general-purpose MariaDB operator and will be retired once
+  Frappe HRMS gains first-class support for a supported database backend.
+
   A Kubernetes charm that deploys MariaDB 10.6 via Pebble.
 
   After deployment the unit reaches active/idle immediately, ready to
