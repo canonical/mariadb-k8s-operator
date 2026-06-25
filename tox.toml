@@ -9,7 +9,6 @@ no_package = true
 
 [env_run_base]
 passenv = [ "PYTHONPATH", "CHARM_BUILD_DIR", "MODEL_SETTINGS" ]
-runner = "uv-venv-lock-runner"
 
 [env_run_base.setenv]
 PYTHONPATH = "{toxinidir}:{toxinidir}/lib:{[vars]src_path}"
