@@ -114,6 +114,7 @@ skip = "build,lib,venv,icon.svg,.tox,.git,.mypy_cache,.ruff_cache,.coverage,html
 minversion = "6.0"
 log_cli_level = "INFO"
 pythonpath = [ "lib", "src" ]
+testpaths = [ "tests/unit" ]
 markers = [
     "abort_on_fail: abort remaining tests if this test fails",
 ]
@@ -140,22 +141,3 @@ exclude_dirs = [ "/venv/" ]
 
 [tool.bandit.assert_used]
 skips = [ "*/*test.py", "*/test_*.py", "*tests/*.py" ]
-
-# Explicitly configure the integration tox env to use the standard virtualenv
-# runner. Without this, tox-uv (if installed on the runner from a previous
-# with-uv=true job) auto-detects uv.lock and switches to uv-venv-lock-runner,
-# which fails when uv is not in PATH (with-uv=false) or cannot be found.
-[tool.tox]
-env_list = ["integration"]
-
-[tool.tox.env.integration]
-runner = "virtualenv"
-skip_install = true
-pass_env = ["*"]
-deps = [
-  "allure-pytest>=2.8.18",
-  "allure-pytest-collection-report @ git+https://github.com/canonical/data-platform-workflows@v24.0.0#subdirectory=python/pytest_plugins/allure_pytest_collection_report",
-  "jubilant==1.10.0",
-  "pytest",
-]
-commands = [["pytest", { replace = "posargs", default = ["tests/integration"], extend = true }]]
