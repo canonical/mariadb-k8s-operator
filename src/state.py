@@ -19,8 +19,8 @@ from pydantic import BaseModel, SecretStr, field_validator
 
 logger = logging.getLogger(__name__)
 
-# Key used to store the root-password secret URI in the peer relation databag.
-_ROOT_SECRET_KEY = "root-password-secret-id"
+# Key used to store the root-password secret URI in the peer relation app databag.
+_ROOT_SECRET_KEY = "root-password-secret-id"  # nosec B105
 # Key prefix used to record provisioned databases in the peer relation.
 _PROVISIONED_KEY_PREFIX = "provisioned-"
 
@@ -65,7 +65,7 @@ class CharmState:
         cls,
         charm: ops.CharmBase,
         container: ops.Container,
-        database_provides,  # DatabaseProvides - avoid circular import
+        database_provides: object,  # DatabaseProvides - avoid circular import
     ) -> "CharmState":
         """Build the state from the live charm.
 
@@ -139,11 +139,11 @@ def create_root_password(charm: ops.CharmBase) -> str:
         description="MariaDB root password managed by the charm.",
     )
     # Grant access to all units via the app secret grant.
-    secret.grant(charm.model.get_relation(PEER_RELATION))
-
     peer = charm.model.get_relation(PEER_RELATION)
     if peer is not None:
-        peer.data[charm.app][_ROOT_SECRET_KEY] = secret.id
+        secret.grant(peer)
+        # secret.id is always set after add_secret
+        peer.data[charm.app][_ROOT_SECRET_KEY] = secret.id or ""
 
     return password
 

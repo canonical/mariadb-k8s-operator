@@ -159,7 +159,8 @@ class MariaDBCharm(ops.CharmBase):
             clear_provisioned(self, event.relation.id)
             return
 
-        database_name = event.relation.data.get(event.relation.app, {}).get("database", "")
+        app = event.relation.app
+        database_name = event.relation.data[app].get("database", "") if app else ""
         username = database_name  # user == database (Frappe/bench assumption)
 
         try:

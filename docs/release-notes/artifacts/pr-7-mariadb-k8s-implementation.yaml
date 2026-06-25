@@ -1,0 +1,16 @@
+version_schema: 2
+
+changes:
+- title: Added MariaDB K8s charm implementation
+  author: swetha-swaminathan
+  type: major
+  description: >
+    Added the initial MariaDB K8s charm implementation using the holistic reconciler
+    pattern. The charm deploys MariaDB 10.6 in a Kubernetes environment, manages
+    a root password via Juju secrets, and provisions dedicated databases and users
+    for each relation request via the mysql_client interface.
+  urls:
+    pr:
+      - "https://github.com/canonical/mariadb-k8s-operator/pull/7"
+  visibility: public
+  highlight: true

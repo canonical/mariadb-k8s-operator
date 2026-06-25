@@ -48,7 +48,7 @@ juju deploy frappe-hrms-k8s
 juju integrate mariadb-k8s frappe-hrms-k8s
 ```
 
-The charm creates a dedicated MariaDB database and user for each integration and writes the credentials to the relation databag automatically.
+The charm creates a dedicated MariaDB database and user for each integration and writes the credentials to the relation data automatically.
 
 ## Integrations
 
