@@ -28,3 +28,9 @@ def pytest_addoption(parser):
         action="store",
         help="temporarily-created model name",
     )
+    parser.addoption(
+        "--mariadb-image",
+        action="store",
+        default=None,
+        help="OCI image reference for the MariaDB rock (passed by CI).",
+    )

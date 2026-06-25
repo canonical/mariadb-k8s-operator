@@ -10,15 +10,6 @@ import jubilant
 import pytest
 
 
-def pytest_addoption(parser: pytest.Parser) -> None:
-    """Add custom CLI options to pytest."""
-    parser.addoption(
-        "--mariadb-image",
-        help="OCI image reference for the MariaDB rock (passed by CI).",
-        default=None,
-    )
-
-
 @pytest.fixture(scope="session", name="mariadb_image")
 def mariadb_image_fixture(request: pytest.FixtureRequest) -> str | None:
     """Return the MariaDB OCI image reference, if provided."""
