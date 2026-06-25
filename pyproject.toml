@@ -114,7 +114,6 @@ skip = "build,lib,venv,icon.svg,.tox,.git,.mypy_cache,.ruff_cache,.coverage,html
 minversion = "6.0"
 log_cli_level = "INFO"
 pythonpath = [ "lib", "src" ]
-testpaths = [ "tests/unit" ]
 markers = [
     "abort_on_fail: abort remaining tests if this test fails",
 ]
