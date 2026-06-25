@@ -1,5 +1,5 @@
 .. meta::
-   :description: A technical overview of the MariaDB K8s Operator charm's architecture, containers, and Pebble services.
+   :description: A technical overview of the mariadb-k8s charm's architecture, containers, and Pebble services.
 
 .. _reference_charm_architecture:
 
@@ -16,7 +16,7 @@ Add overview material here:
 2. Describe Pebble services.
 
 .. Example text
-   At its core, the MariaDB K8s Operator charm is <software> that does <brief description>.
+   At its core, the mariadb-k8s charm is <software> that does <brief description>.
 
    The charm design leverages the `sidecar <https://kubernetes.io/blog/2015/06/the-distributed-system-toolkit-patterns/#example-1-sidecar-containers>`_ pattern to allow multiple containers in each pod with `Pebble <https://documentation.ubuntu.com/juju/3.6/reference/pebble/>`_ running as the workload container's entrypoint.
 
@@ -29,12 +29,12 @@ Add overview material here:
    3. And so on.
 
 
-   As a result, if you run a ``kubectl get pods`` on a namespace named for the Juju model you've deployed the MariaDB K8s Operator charm into, you'll see something like the following:
+   As a result, if you run a ``kubectl get pods`` on a namespace named for the Juju model you've deployed the mariadb-k8s charm into, you'll see something like the following:
 
    .. code-block:: bash
 
       NAME                             READY   STATUS    RESTARTS   AGE
-      MariaDB K8s Operator-0                   N/N     Running   0         6h4m
+      mariadb-k8s-0                   N/N     Running   0         6h4m
 
    This shows there are <NUMBER> containers - <describe what the containers are>.
 
@@ -54,7 +54,7 @@ Configuration files for the containers can be found in the respective directorie
 OCI images
 ----------
 
-We use `Rockcraft <https://documentation.ubuntu.com/rockcraft/stable/>`_ to build OCI Images for MariaDB K8s Operator.
+We use `Rockcraft <https://documentation.ubuntu.com/rockcraft/stable/>`_ to build OCI Images for mariadb-k8s.
 The images are defined in (link to rock).
 They are published to `Charmhub <https://charmhub.io/>`_, the official repository of charms.
 

@@ -1,5 +1,5 @@
 .. meta::
-   :description: Reference documentation for the alerting and monitoring metrics provided by the MariaDB K8s Operator charm.
+   :description: Reference documentation for the alerting and monitoring metrics provided by the mariadb-k8s charm.
 
 .. _reference_metrics:
 

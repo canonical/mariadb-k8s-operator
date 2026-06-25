@@ -1,5 +1,5 @@
 .. meta::
-   :description: How to back up and restore the MariaDB K8s Operator charm and its associated data.
+   :description: How to back up and restore the mariadb-k8s charm and its associated data.
 
 .. _how_to_back_up_restore:
 

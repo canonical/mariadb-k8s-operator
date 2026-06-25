@@ -1,12 +1,12 @@
 .. meta::
-   :description: A high-level overview of the MariaDB K8s Operator charm's deployment, including its relations to other charms.
+   :description: A high-level overview of the mariadb-k8s charm's deployment, including its relations to other charms.
 
 .. _reference_high_level_deployment:
 
-High-level overview of MariaDB K8s Operator deployment
+High-level overview of mariadb-k8s deployment
 =================================================
 
-The following diagram shows a typical deployment of the MariaDB K8s Operator charm.
+The following diagram shows a typical deployment of the mariadb-k8s charm.
 
 .. 
    Provide a brief description of the deployment here. Is it a Kubernetes cloud, a VM, or both?

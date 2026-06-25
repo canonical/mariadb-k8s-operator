@@ -1,11 +1,11 @@
 .. meta::
-   :description: Discover the MariaDB K8s Operator charm, a Juju operator that deploys and manages MariaDB K8s Operator.
+   :description: Discover the mariadb-k8s charm, a Juju operator that deploys and manages mariadb-k8s.
 
 .. vale Canonical.007-Headings-sentence-case = NO
 
 .. _index:
 
-MariaDB K8s Operator operator
+mariadb-k8s operator
 ========================
 
 .. vale Canonical.007-Headings-sentence-case = YES
@@ -14,18 +14,18 @@ MariaDB K8s Operator operator
    Add a 1-2 sentence description of what the charm software does.
 
 A `Juju <https://juju.is/>`_ `charm <https://documentation.ubuntu.com/juju/3.6/reference/charm/>`_
-deploying and managing MariaDB 10.6 on Kubernetes.. 
+deploying and managing MariaDB 10.6 on Kubernetes.
 
 .. TODO: A paragraph of 2-5 short sentences, that describes what the product does
    and what need the product meets.
 
 Like any Juju charm, this charm supports one-line deployment, configuration, integration,
 scaling, and more. 
-For MariaDB K8s Operator, this includes:
+For mariadb-k8s, this includes:
 
 * list or summary of app-specific features
 
-The MariaDB K8s Operator charm allows for deployment on many different Kubernetes platforms,
+The mariadb-k8s charm allows for deployment on many different Kubernetes platforms,
 from `MicroK8s <https://microk8s.io/>`_ to 
 `Charmed Kubernetes <https://ubuntu.com/kubernetes>`_ to public cloud Kubernetes offerings.
 
@@ -109,7 +109,7 @@ file a bug.
 Project and community
 ---------------------
 
-The MariaDB K8s Operator Operator is a member of the Ubuntu family. It's an open-source project that warmly welcomes community 
+The mariadb-k8s operator is a member of the Ubuntu family. It's an open-source project that warmly welcomes community 
 projects, contributions, suggestions, fixes, and constructive feedback.
 
 Governance and policies
@@ -129,7 +129,7 @@ Releases
 
 - :ref:`Release notes <release_notes_index>`
 
-Thinking about using the MariaDB K8s Operator Operator for your next project? 
+Thinking about using the mariadb-k8s operator for your next project? 
 `Get in touch <https://matrix.to/#/#charmhub-charmdev:ubuntu.com>`_!
 
 .. vale Canonical.013-Spell-out-numbers-below-10 = NO

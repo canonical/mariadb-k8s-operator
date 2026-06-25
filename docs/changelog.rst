@@ -1,5 +1,5 @@
 .. meta::
-   :description: View the changelog for the MariaDB K8s Operator charm, including all versions and changes.
+   :description: View the changelog for the mariadb-k8s charm, including all versions and changes.
 
 .. _changelog:
 

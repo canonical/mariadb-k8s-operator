@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+
+# Copyright 2025 Canonical Ltd.
+# See LICENSE file for licensing details.
+
 """MariaDB K8s Charm.
 
 Implements the holistic (reconciler) pattern: every interesting Juju event
@@ -14,8 +18,6 @@ Relations:
   * ``database`` (provides) – mysql_client interface via data-platform-libs
   * ``mariadb-peers`` (peers) – shares root-password secret URI between units
 """
-
-from __future__ import annotations
 
 import logging
 
@@ -75,11 +77,10 @@ class MariaDBCharm(ops.CharmBase):
         # upgrade-charm is handled outside _reconcile (refresh semantics).
         framework.observe(self.on.upgrade_charm, self._on_upgrade_charm)
 
-        # Status reporting hook.
+        # collect_unit_status is fired after every hook and is the recommended
+        # ops pattern for setting unit status composably without scattering
+        # self.unit.status assignments across multiple code paths.
         framework.observe(self.on.collect_unit_status, self._on_collect_unit_status)
-
-        # Open the MariaDB port so Juju knows the charm exposes it.
-        self.unit.open_port("tcp", MARIADB_PORT)
 
     # ── Main reconciler ───────────────────────────────────────────────────────
 
@@ -93,6 +94,9 @@ class MariaDBCharm(ops.CharmBase):
         4. Provision databases – handle pending database relation requests.
         5. Status is reported via collect_unit_status.
         """
+        # Open the MariaDB port so Juju knows the charm exposes it.
+        self.unit.open_port("tcp", MARIADB_PORT)
+
         state = CharmState.from_charm(self, self._container, self._database_provides)
 
         # ── 1. Pre-checks ─────────────────────────────────────────────────────
@@ -115,7 +119,6 @@ class MariaDBCharm(ops.CharmBase):
 
         # ── 3. Configure workload ─────────────────────────────────────────────
         try:
-            self._workload.push_startup_script()
             self._workload.configure_pebble_layer(root_password)
         except WorkloadError as exc:
             logger.error("Pebble configuration failed: %s", exc)
@@ -167,12 +170,11 @@ class MariaDBCharm(ops.CharmBase):
     # ── Refresh handler ───────────────────────────────────────────────────────
 
     def _on_upgrade_charm(self, _: ops.UpgradeCharmEvent) -> None:
-        """Handle charm refresh: push startup script and reapply Pebble layer."""
+        """Handle charm refresh: reapply Pebble layer."""
         state = CharmState.from_charm(self, self._container, self._database_provides)
         if not state.container_ready or state.root_password is None:
             return
         try:
-            self._workload.push_startup_script()
             self._workload.configure_pebble_layer(state.root_password)
         except WorkloadError as exc:
             logger.error("Pebble reconfiguration after upgrade failed: %s", exc)

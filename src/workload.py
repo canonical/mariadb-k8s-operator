@@ -1,3 +1,6 @@
+# Copyright 2025 Canonical Ltd.
+# See LICENSE file for licensing details.
+
 """Workload operations for the MariaDB K8s charm.
 
 All Pebble and MariaDB-specific logic lives here.  ``charm.py`` depends on
@@ -7,8 +10,6 @@ The Pebble layer is applied on every reconciliation so that configuration
 changes (e.g. a new root password) are always reflected.  The MariaDB
 service is only restarted when the layer actually changes.
 """
-
-from __future__ import annotations
 
 import logging
 import secrets
@@ -21,68 +22,11 @@ logger = logging.getLogger(__name__)
 
 MARIADB_PORT = 3306
 _SERVICE_NAME = "mariadb"
-_MARIADB_VERSION = "10.6"
 
 
 class WorkloadError(Exception):
     """Raised when a workload operation fails."""
 
-
-_STARTUP_SCRIPT = """\
-#!/bin/bash
-# Managed by mariadb-k8s charm — do not edit manually.
-set -euo pipefail
-
-DATADIR=/var/lib/mysql
-SOCKET=/run/mysqld/mysqld.sock
-
-if [ -z "${MYSQL_ROOT_PASSWORD:-}" ]; then
-    echo "ERROR: MYSQL_ROOT_PASSWORD is not set" >&2
-    exit 1
-fi
-
-mkdir -p /run/mysqld
-chown mysql:mysql /run/mysqld
-
-if [ ! -d "${DATADIR}/mysql" ]; then
-    echo "Initialising MariaDB data directory..."
-    mariadb-install-db \\
-        --user=mysql \\
-        --datadir="${DATADIR}" \\
-        --skip-test-db \\
-        --auth-root-authentication-method=normal
-
-    mariadbd \\
-        --user=mysql \\
-        --skip-networking \\
-        --socket="${SOCKET}" \\
-        --pid-file=/run/mysqld/init.pid &
-    INIT_PID=$!
-
-    for i in $(seq 1 60); do
-        if mariadb --socket="${SOCKET}" -uroot -e "SELECT 1" >/dev/null 2>&1; then
-            break
-        fi
-        sleep 1
-    done
-
-    mariadb --socket="${SOCKET}" -uroot <<SQL
-ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'127.0.0.1' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}' WITH GRANT OPTION;
-DELETE FROM mysql.user WHERE User = 'root' AND Host NOT IN ('localhost', '127.0.0.1');
-DELETE FROM mysql.user WHERE User = '';
-DROP DATABASE IF EXISTS test;
-DELETE FROM mysql.db WHERE Db = 'test' OR Db = 'test\\\\_%';
-FLUSH PRIVILEGES;
-SQL
-
-    kill "${INIT_PID}"
-    wait "${INIT_PID}" 2>/dev/null || true
-    echo "Initialisation complete."
-fi
-
-exec mariadbd --user=mysql
-"""
 
 _STARTUP_SCRIPT_PATH = "/usr/local/bin/start-mariadb.sh"
 
@@ -92,20 +36,6 @@ class MariaDBWorkload:
 
     def __init__(self, container: ops.Container) -> None:
         self._container = container
-
-    def push_startup_script(self) -> None:
-        """Push the startup script into the container.
-
-        This is called on every reconcile before configuring the Pebble layer,
-        ensuring the script is always up to date even when using a plain Docker
-        image that does not have the script baked in.
-        """
-        self._container.push(
-            _STARTUP_SCRIPT_PATH,
-            _STARTUP_SCRIPT,
-            make_dirs=True,
-            permissions=0o755,
-        )
 
     # ── Pebble layer ──────────────────────────────────────────────────────────
 

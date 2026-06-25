@@ -1,5 +1,5 @@
 .. meta::
-   :description: How to deploy and manage the MariaDB K8s Operator charm using Terraform modules.
+   :description: How to deploy and manage the mariadb-k8s charm using Terraform modules.
 
 .. _how_to_terraform:
 

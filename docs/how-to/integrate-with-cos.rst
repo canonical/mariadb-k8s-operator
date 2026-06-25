@@ -1,5 +1,5 @@
 .. meta::
-   :description: How to integrate the MariaDB K8s Operator charm with the Canonical Observability Stack (COS).
+   :description: How to integrate the mariadb-k8s charm with the Canonical Observability Stack (COS).
 
 .. _how_to_integrate_with_cos:
 

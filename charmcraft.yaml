@@ -27,7 +27,7 @@ description: |
   The charm uses the ``mysql_client`` interface, compatible with the
   data-platform-libs ``DatabaseRequires``/``DatabaseProvides`` libraries.
 
-base: ubuntu@22.04
+base: ubuntu@24.04
 platforms:
   amd64:
 
@@ -60,15 +60,3 @@ provides:
 peers:
   mariadb-peers:
     interface: mariadb-peers
-
-config:
-  options:
-    mysql-root-password:
-      type: string
-      default: ""
-      description: |
-        Optional: override the auto-generated root password.
-        Leave empty (default) to have the charm generate a secure random
-        password on first deployment. Changing this value after the
-        initial deployment has no effect; the password stored in the
-        Juju secret is used instead.

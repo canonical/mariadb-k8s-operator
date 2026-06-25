@@ -2,8 +2,8 @@
 # See LICENSE file for licensing details.
 
 name: mariadb
-base: ubuntu@22.04
-build-base: ubuntu@22.04
+base: ubuntu@26.04
+build-base: ubuntu@26.04
 version: "10.6"
 summary: MariaDB 10.6 database server
 description: |
@@ -26,7 +26,7 @@ parts:
 
   startup-script:
     plugin: dump
-    source: scripts/
+    source: ../scripts/
     organize:
       start-mariadb.sh: usr/local/bin/start-mariadb.sh
     permissions:

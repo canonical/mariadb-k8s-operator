@@ -1,5 +1,5 @@
 .. meta::
-   :description: An overview of the cryptographic components used by the MariaDB K8s Operator charm.
+   :description: An overview of the cryptographic components used by the mariadb-k8s charm.
 
 .. _reference_cryptographic_overview:
 

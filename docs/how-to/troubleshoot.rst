@@ -1,5 +1,5 @@
 .. meta::
-   :description: Troubleshoot common issues with the MariaDB K8s Operator charm and its deployment.
+   :description: Troubleshoot common issues with the mariadb-k8s charm and its deployment.
 
 .. _how_to_troubleshoot:
 

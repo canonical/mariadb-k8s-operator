@@ -1,5 +1,5 @@
 .. meta::
-   :description: Reference documentation for all actions available in the MariaDB K8s Operator charm.
+   :description: Reference documentation for all actions available in the mariadb-k8s charm.
 
 .. _reference_actions:
 

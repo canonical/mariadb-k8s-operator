@@ -1,5 +1,5 @@
 .. meta::
-   :description: Familiarize yourself with contributing to the MariaDB K8s Operator charm documentation.
+   :description: Familiarize yourself with contributing to the mariadb-k8s charm documentation.
 
 .. _how_to_contribute:
 

@@ -1,5 +1,5 @@
 .. meta::
-   :description: An advanced tutorial for deploying the MariaDB K8s Operator charm using Terraform or advanced environmental setup.
+   :description: An advanced tutorial for deploying the mariadb-k8s charm using Terraform or advanced environmental setup.
 
 .. _tutorial_advanced_deployment:
 

@@ -1,5 +1,5 @@
 .. meta::
-   :description: Reference documentation for all relation endpoints supported by the MariaDB K8s Operator charm.
+   :description: Reference documentation for all relation endpoints supported by the mariadb-k8s charm.
 
 .. _reference_relation_endpoints:
 
@@ -20,4 +20,4 @@ Example <integration-name> integrate command:
 
 .. code-block:: bash
 
-   juju integrate MariaDB K8s Operator <supported-charm>:<integration-name>
+   juju integrate mariadb-k8s <supported-charm>:<integration-name>

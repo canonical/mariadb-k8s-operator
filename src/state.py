@@ -1,3 +1,6 @@
+# Copyright 2025 Canonical Ltd.
+# See LICENSE file for licensing details.
+
 """Runtime state abstraction for the MariaDB K8s charm.
 
 All Juju-specific state (config, relation data, secrets, unit metadata)
@@ -5,8 +8,6 @@ is collected here into plain Pydantic models.  Code outside this module
 never touches ``self.config``, ``self.model.relations``, or Juju secrets
 directly.
 """
-
-from __future__ import annotations
 
 import logging
 import secrets
@@ -24,12 +25,6 @@ _ROOT_SECRET_KEY = "root-password-secret-id"
 _PROVISIONED_KEY_PREFIX = "provisioned-"
 
 PEER_RELATION = "mariadb-peers"
-
-
-class MariaDBConfig(BaseModel):
-    """Validated charm configuration."""
-
-    mysql_root_password_override: str = ""
 
 
 class DatabaseCredentials(BaseModel):
@@ -56,7 +51,6 @@ class CharmState:
     All fields are plain Python values – no Juju objects leak through.
     """
 
-    config: MariaDBConfig
     is_leader: bool
     container_ready: bool
     root_password: Optional[str]
@@ -77,10 +71,6 @@ class CharmState:
 
         This is the *only* place where Juju primitives are accessed.
         """
-        config = MariaDBConfig(
-            mysql_root_password_override=charm.config.get("mysql-root-password", ""),
-        )
-
         root_password = cls._load_root_password(charm)
 
         pending: dict[int, str] = {}
@@ -99,7 +89,6 @@ class CharmState:
                 pending[rel_id] = requested_db
 
         return cls(
-            config=config,
             is_leader=charm.unit.is_leader(),
             container_ready=container.can_connect(),
             root_password=root_password,

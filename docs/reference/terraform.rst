@@ -1,5 +1,5 @@
 .. meta::
-   :description: Technical reference for the Terraform module available for deploying the MariaDB K8s Operator charm.
+   :description: Technical reference for the Terraform module available for deploying the mariadb-k8s charm.
 
 .. _reference_terraform:
 
