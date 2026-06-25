@@ -33,7 +33,7 @@ if [ ! -d "${DATADIR}/mysql" ]; then
         --pid-file=/run/mysqld/init.pid &
     INIT_PID=$!
 
-    for i in $(seq 1 60); do
+    for _ in $(seq 1 60); do
         mariadb --socket="${SOCKET}" -uroot -e "SELECT 1" >/dev/null 2>&1 && break
         sleep 1
     done

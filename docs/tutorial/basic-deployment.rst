@@ -3,7 +3,7 @@
 
 .. _tutorial_basic_deployment:
 
-Deploy the mariadb-k8s charm for the first time
+Deploy the ``mariadb-k8s`` charm for the first time
 ==================================================
 
 .. TODO: 1-2 sentences that introduce the charm and outlines what the tutorial will cover.

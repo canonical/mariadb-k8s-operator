@@ -48,7 +48,7 @@ class CharmState:
     """Assembled runtime state of the MariaDB charm.
 
     Constructed once per reconciliation cycle via :meth:`from_charm`.
-    All fields are plain Python values – no Juju objects leak through.
+    All fields are plain Python values - no Juju objects leak through.
     """
 
     is_leader: bool
@@ -65,7 +65,7 @@ class CharmState:
         cls,
         charm: ops.CharmBase,
         container: ops.Container,
-        database_provides,  # DatabaseProvides – avoid circular import
+        database_provides,  # DatabaseProvides - avoid circular import
     ) -> "CharmState":
         """Build the state from the live charm.
 

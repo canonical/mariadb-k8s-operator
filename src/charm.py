@@ -10,20 +10,20 @@ is routed to :meth:`MariaDBCharm._reconcile`, which reads all state,
 computes the desired world, and writes it out.  No ``defer`` is used.
 
 Architecture:
-  * ``state.py``    – runtime state abstraction (CharmState, Pydantic)
-  * ``workload.py`` – all Pebble / MariaDB exec interactions (MariaDBWorkload)
-  * ``charm.py``    – Juju event wiring and orchestration (this file)
+  * ``state.py``    - runtime state abstraction (CharmState, Pydantic)
+  * ``workload.py`` - all Pebble / MariaDB exec interactions (MariaDBWorkload)
+  * ``charm.py``    - Juju event wiring and orchestration (this file)
 
 Relations:
-  * ``database`` (provides) – mysql_client interface via data-platform-libs
-  * ``mariadb-peers`` (peers) – shares root-password secret URI between units
+  * ``database`` (provides) - mysql_client interface via data-platform-libs
+  * ``mariadb-peers`` (peers) - shares root-password secret URI between units
 """
 
 import logging
 
 import ops
-
 from charms.data_platform_libs.v0.data_interfaces import DatabaseProvides
+
 from state import (
     PEER_RELATION,
     CharmState,
@@ -84,14 +84,14 @@ class MariaDBCharm(ops.CharmBase):
 
     # ── Main reconciler ───────────────────────────────────────────────────────
 
-    def _reconcile(self, _: ops.EventBase) -> None:  # noqa: C901
+    def _reconcile(self, _: ops.EventBase) -> None:
         """Reconcile towards the desired state.
 
         Structure:
-        1. Pre-checks – exit early if fundamental prerequisites are not met.
-        2. Bootstrap – ensure root password exists (leader only).
-        3. Configure workload – apply Pebble layer.
-        4. Provision databases – handle pending database relation requests.
+        1. Pre-checks - exit early if fundamental prerequisites are not met.
+        2. Bootstrap - ensure root password exists (leader only).
+        3. Configure workload - apply Pebble layer.
+        4. Provision databases - handle pending database relation requests.
         5. Status is reported via collect_unit_status.
         """
         # Open the MariaDB port so Juju knows the charm exposes it.
@@ -138,7 +138,9 @@ class MariaDBCharm(ops.CharmBase):
             except (WorkloadError, ops.ModelError) as exc:
                 logger.error(
                     "Failed to provision database %r for relation %d: %s",
-                    database_name, relation_id, exc,
+                    database_name,
+                    relation_id,
+                    exc,
                 )
 
     # ── Relation handlers ─────────────────────────────────────────────────────
@@ -201,15 +203,13 @@ class MariaDBCharm(ops.CharmBase):
         n_pending = len(state.pending_databases)
 
         if n_pending > 0:
-            event.add_status(
-                ops.WaitingStatus(f"Provisioning {n_pending} database(s)")
-            )
+            event.add_status(ops.WaitingStatus(f"Provisioning {n_pending} database(s)"))
             return
 
         if n_provisioned == 0:
-            event.add_status(ops.ActiveStatus("Ready – waiting for database relations"))
+            event.add_status(ops.ActiveStatus("Ready - waiting for database relations"))
         else:
-            event.add_status(ops.ActiveStatus(f"Ready – serving {n_provisioned} database(s)"))
+            event.add_status(ops.ActiveStatus(f"Ready - serving {n_provisioned} database(s)"))
 
     # ── Private helpers ───────────────────────────────────────────────────────
 
@@ -235,16 +235,16 @@ class MariaDBCharm(ops.CharmBase):
 
         logger.info(
             "Provisioning database %r / user %r for relation %d",
-            database_name, username, relation_id,
+            database_name,
+            username,
+            relation_id,
         )
 
         self._workload.create_database(database_name, username, password, root_password)
 
         self._database_provides.set_credentials(relation_id, username, password)
         self._database_provides.set_database(relation_id, database_name)
-        self._database_provides.set_endpoints(
-            relation_id, database_endpoint(self.app.name)
-        )
+        self._database_provides.set_endpoints(relation_id, database_endpoint(self.app.name))
 
         version = self._workload.mariadb_version(root_password)
         if version:
@@ -252,7 +252,9 @@ class MariaDBCharm(ops.CharmBase):
 
         mark_provisioned(self, relation_id)
 
-        logger.info("Database %r provisioned successfully for relation %d", database_name, relation_id)
+        logger.info(
+            "Database %r provisioned successfully for relation %d", database_name, relation_id
+        )
 
 
 if __name__ == "__main__":

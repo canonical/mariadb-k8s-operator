@@ -11,7 +11,7 @@ Reference
          Define themes and subsections based on the charm's unique needs and features.
          Provide 1-2 sentence introductions for each subsection.
 
-This section contains technical details and information about the mariadb-k8s charm.
+This section contains technical details and information about the ``mariadb-k8s`` charm.
 
 Charm usage
 -----------

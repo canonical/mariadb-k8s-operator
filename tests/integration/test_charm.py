@@ -39,4 +39,3 @@ def test_charm_active_after_deploy(juju: jubilant.Juju):
     status = juju.status()
     app = status.apps[MARIADB_APP]
     assert app.is_active
-

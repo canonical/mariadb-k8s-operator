@@ -12,7 +12,7 @@ Explanation
          or subsections.
 
 The pages in this section provide additional context and deeper understanding
-of foundational topics and concepts related to the mariadb-k8s charm.
+of foundational topics and concepts related to the ``mariadb-k8s`` charm.
 
 .. vale Canonical.013-Spell-out-numbers-below-10 = NO
 

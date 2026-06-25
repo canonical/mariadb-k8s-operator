@@ -9,7 +9,7 @@ Tutorial
 .. TODO: Update the charm name, and check that the toctree entries are up-to-date.
 
 This section contains a step-by-step guide to help you start exploring
-how to install and use the mariadb-k8s operator. Our tutorials aim to
+how to install and use the ``mariadb-k8s`` operator. Our tutorials aim to
 provide an end-to-end learning experience as you get started with the charm.
 
 Get started

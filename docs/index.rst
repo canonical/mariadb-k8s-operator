@@ -5,7 +5,7 @@
 
 .. _index:
 
-mariadb-k8s operator
+``mariadb-k8s`` operator
 ========================
 
 .. vale Canonical.007-Headings-sentence-case = YES
@@ -21,11 +21,11 @@ deploying and managing MariaDB 10.6 on Kubernetes.
 
 Like any Juju charm, this charm supports one-line deployment, configuration, integration,
 scaling, and more. 
-For mariadb-k8s, this includes:
+For ``mariadb-k8s``, this includes:
 
 * list or summary of app-specific features
 
-The mariadb-k8s charm allows for deployment on many different Kubernetes platforms,
+The ``mariadb-k8s`` charm allows for deployment on many different Kubernetes platforms,
 from `MicroK8s <https://microk8s.io/>`_ to 
 `Charmed Kubernetes <https://ubuntu.com/kubernetes>`_ to public cloud Kubernetes offerings.
 
@@ -109,7 +109,7 @@ file a bug.
 Project and community
 ---------------------
 
-The mariadb-k8s operator is a member of the Ubuntu family. It's an open-source project that warmly welcomes community 
+The ``mariadb-k8s`` operator is a member of the Ubuntu family. It's an open-source project that warmly welcomes community 
 projects, contributions, suggestions, fixes, and constructive feedback.
 
 Governance and policies
@@ -129,7 +129,7 @@ Releases
 
 - :ref:`Release notes <release_notes_index>`
 
-Thinking about using the mariadb-k8s operator for your next project? 
+Thinking about using the ``mariadb-k8s`` operator for your next project? 
 `Get in touch <https://matrix.to/#/#charmhub-charmdev:ubuntu.com>`_!
 
 .. vale Canonical.013-Spell-out-numbers-below-10 = NO

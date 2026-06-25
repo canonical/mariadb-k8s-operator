@@ -9,11 +9,9 @@ from unittest.mock import MagicMock
 
 import ops
 import ops.testing
-import pytest
 
-from charm import MariaDBCharm, CONTAINER_NAME, DATABASE_RELATION, MARIADB_PORT
-from workload import generate_password, database_endpoint, MariaDBWorkload
-
+from charm import CONTAINER_NAME, MARIADB_PORT, MariaDBCharm
+from workload import MariaDBWorkload, database_endpoint, generate_password
 
 # ---------------------------------------------------------------------------
 # Pebble-not-ready: container cannot connect
@@ -70,7 +68,7 @@ def test_database_endpoint():
 
 
 # ---------------------------------------------------------------------------
-# CharmState.from_charm – no pending relations
+# CharmState.from_charm - no pending relations
 # ---------------------------------------------------------------------------
 
 
@@ -125,13 +123,14 @@ def test_workload_ready_when_check_up():
 
 
 # ---------------------------------------------------------------------------
-# MariaDBWorkload.configure_pebble_layer – no restart when unchanged
+# MariaDBWorkload.configure_pebble_layer - no restart when unchanged
 # ---------------------------------------------------------------------------
 
 
 def test_workload_configure_no_restart_when_unchanged():
-    """replan should not be called if the service is already running and the
-    layer has not changed."""
+    """Replan should not be called if the service is already running and the
+    layer has not changed.
+    """
     container = MagicMock()
     container.can_connect.return_value = True
 
@@ -156,7 +155,7 @@ def test_workload_configure_no_restart_when_unchanged():
 
 
 # ---------------------------------------------------------------------------
-# MariaDBWorkload.create_database – exec is called
+# MariaDBWorkload.create_database - exec is called
 # ---------------------------------------------------------------------------
 
 
@@ -172,5 +171,3 @@ def test_workload_create_database_calls_exec():
     cmd = container.exec.call_args[0][0]
     assert "mariadb" in cmd
     assert "--user=root" in cmd
-
-

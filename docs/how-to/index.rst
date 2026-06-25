@@ -20,7 +20,7 @@ How-to guides
          More examples of subsections: Initial setup, Security
 
 
-Manage the full operations lifecycle of the mariadb-k8s charm, from initial deployment
+Manage the full operations lifecycle of the ``mariadb-k8s`` charm, from initial deployment
 through production maintenance.
 Each guide assumes that you've already deployed the charm with Juju.
 
@@ -44,7 +44,7 @@ Update and refresh
 ------------------
 
 Backups, redeployments, and upgrades ensure the
-mariadb-k8s charm stays current and benefits from new features
+``mariadb-k8s`` charm stays current and benefits from new features
 and capabilities.
 
 .. toctree::

@@ -16,7 +16,7 @@ Add overview material here:
 2. Describe Pebble services.
 
 .. Example text
-   At its core, the mariadb-k8s charm is <software> that does <brief description>.
+   At its core, the ``mariadb-k8s`` charm is <software> that does <brief description>.
 
    The charm design leverages the `sidecar <https://kubernetes.io/blog/2015/06/the-distributed-system-toolkit-patterns/#example-1-sidecar-containers>`_ pattern to allow multiple containers in each pod with `Pebble <https://documentation.ubuntu.com/juju/3.6/reference/pebble/>`_ running as the workload container's entrypoint.
 
@@ -29,7 +29,7 @@ Add overview material here:
    3. And so on.
 
 
-   As a result, if you run a ``kubectl get pods`` on a namespace named for the Juju model you've deployed the mariadb-k8s charm into, you'll see something like the following:
+   As a result, if you run a ``kubectl get pods`` on a namespace named for the Juju model you've deployed the ``mariadb-k8s`` charm into, you'll see something like the following:
 
    .. code-block:: bash
 
@@ -54,7 +54,7 @@ Configuration files for the containers can be found in the respective directorie
 OCI images
 ----------
 
-We use `Rockcraft <https://documentation.ubuntu.com/rockcraft/stable/>`_ to build OCI Images for mariadb-k8s.
+We use `Rockcraft <https://documentation.ubuntu.com/rockcraft/stable/>`_ to build OCI Images for ``mariadb-k8s``.
 The images are defined in (link to rock).
 They are published to `Charmhub <https://charmhub.io/>`_, the official repository of charms.
 

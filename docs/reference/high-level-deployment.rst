@@ -3,10 +3,10 @@
 
 .. _reference_high_level_deployment:
 
-High-level overview of mariadb-k8s deployment
+High-level overview of ``mariadb-k8s`` deployment
 =================================================
 
-The following diagram shows a typical deployment of the mariadb-k8s charm.
+The following diagram shows a typical deployment of the ``mariadb-k8s`` charm.
 
 .. 
    Provide a brief description of the deployment here. Is it a Kubernetes cloud, a VM, or both?

@@ -9,7 +9,7 @@
 Release notes
 =============
 
-Release notes for the <main> track of mariadb-k8s, summarizing new features,
+Release notes for the <main> track of ``mariadb-k8s``, summarizing new features,
 bug fixes and backwards-incompatible changes in each revision.
 
 For upgrading the charm, see :ref:`How to upgrade <how_to_upgrade>`.

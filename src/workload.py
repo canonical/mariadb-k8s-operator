@@ -110,7 +110,9 @@ class MariaDBWorkload:
 
     # ── Database / user provisioning ──────────────────────────────────────────
 
-    def create_database(self, database: str, username: str, password: str, root_password: str) -> None:
+    def create_database(
+        self, database: str, username: str, password: str, root_password: str
+    ) -> None:
         """Create *database* and *username* with full privileges on it.
 
         Idempotent: uses ``CREATE DATABASE IF NOT EXISTS`` and
@@ -157,9 +159,15 @@ class MariaDBWorkload:
         """Return the MariaDB server version string, or None on failure."""
         try:
             proc = self._container.exec(
-                ["mariadb", "--user=root", f"--password={root_password}",
-                 "--host=127.0.0.1", "--batch", "--skip-column-names",
-                 "--execute=SELECT VERSION();"],
+                [
+                    "mariadb",
+                    "--user=root",
+                    f"--password={root_password}",
+                    "--host=127.0.0.1",
+                    "--batch",
+                    "--skip-column-names",
+                    "--execute=SELECT VERSION();",
+                ],
                 environment={"MYSQL_PWD": root_password},
             )
             stdout, _ = proc.wait_output()
@@ -181,8 +189,7 @@ class MariaDBWorkload:
         """Execute *sql* via the mariadb CLI inside the container."""
         try:
             proc = self._container.exec(
-                ["mariadb", "--user=root", "--host=127.0.0.1",
-                 "--batch", "--skip-column-names"],
+                ["mariadb", "--user=root", "--host=127.0.0.1", "--batch", "--skip-column-names"],
                 environment={"MYSQL_PWD": root_password},
                 stdin=sql,
             )
