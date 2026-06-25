@@ -55,6 +55,7 @@ integration = [
 
 [tool.uv]
 package = false
+required-version = "0.11.24"
 
 [tool.ruff]
 target-version = "py312"
