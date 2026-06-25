@@ -17,13 +17,16 @@ MARIADB_PORT = 3306
 
 
 @pytest.mark.abort_on_fail
-def test_deploy(juju: jubilant.Juju, charm: str):
+def test_deploy(juju: jubilant.Juju, charm: str, mariadb_image: str | None):
     """
     arrange: A Juju model with the mariadb-k8s charm file.
     act: Deploy the charm.
     assert: The application reaches active/idle.
     """
-    juju.deploy(charm, app=MARIADB_APP, num_units=1)
+    resources = {}
+    if mariadb_image:
+        resources["mariadb-image"] = mariadb_image
+    juju.deploy(charm, app=MARIADB_APP, num_units=1, resources=resources)
     juju.wait(jubilant.all_active, timeout=5 * 60)
     status = juju.status()
     assert MARIADB_APP in status.apps

@@ -27,6 +27,7 @@ header:
   - '**/*.md.j2'
   - '**/*.rst.j2'
   - 'docs/release-notes/template/*.yaml'
+  - 'docs/release-notes/artifacts/*.yaml'
   - 'uv.lock'
   - 'lib/**'
   comment: on-failure
