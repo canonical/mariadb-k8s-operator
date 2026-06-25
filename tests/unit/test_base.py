@@ -139,7 +139,7 @@ def test_workload_configure_no_restart_when_unchanged():
         "summary": "MariaDB database server",
         "command": "/usr/local/bin/start-mariadb.sh",
         "startup": "enabled",
-        "environment": {"MYSQL_ROOT_PASSWORD": "secret"},
+        "environment": {"MYSQL_ROOT_PASSWORD": "secret"},  # nosec B105
         "on-check-failure": {"mariadb-ready": "restart"},
     }
     mock_plan = MagicMock()
