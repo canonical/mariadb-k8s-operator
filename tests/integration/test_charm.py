@@ -30,15 +30,3 @@ def test_deploy(juju: jubilant.Juju, charm: str, mariadb_image: str | None):
     juju.wait(jubilant.all_active, timeout=5 * 60)
     status = juju.status()
     assert MARIADB_APP in status.apps
-
-
-@pytest.mark.abort_on_fail
-def test_charm_active_after_deploy(juju: jubilant.Juju):
-    """
-    arrange: The mariadb-k8s charm is deployed and active.
-    act: Query the Juju status.
-    assert: The unit is in active/idle state.
-    """
-    status = juju.status()
-    app = status.apps[MARIADB_APP]
-    assert app.is_active
