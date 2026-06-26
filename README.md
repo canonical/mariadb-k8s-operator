@@ -1,4 +1,4 @@
-# MariaDB K8s operator
+# MariaDB k8s operator
 <!-- Use this space for badges -->
 
 > **⚠️ Experimental — not for production use**
