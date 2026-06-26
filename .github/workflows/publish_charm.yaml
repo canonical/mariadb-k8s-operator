@@ -15,4 +15,4 @@ jobs:
       actions: read
     secrets: inherit
     with:
-      channel: latest/experimental
+      channel: latest/edge
