@@ -10,6 +10,12 @@ import jubilant
 import pytest
 
 
+@pytest.fixture(scope="session", name="mariadb_image")
+def mariadb_image_fixture(request: pytest.FixtureRequest) -> str | None:
+    """Return the MariaDB OCI image reference, if provided."""
+    return request.config.getoption("--mariadb-image")
+
+
 @pytest.fixture(scope="module", name="charm")
 def charm_fixture(pytestconfig: pytest.Config):
     """Get value from parameter charm-file."""

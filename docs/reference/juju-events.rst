@@ -1,5 +1,5 @@
 .. meta::
-   :description: Reference documentation for all Juju events observed by the __charm_name__ charm.
+   :description: Reference documentation for all Juju events observed by the mariadb-k8s charm.
 
 .. _reference_juju_events:
 

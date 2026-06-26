@@ -1,5 +1,5 @@
 .. meta::
-   :description: Conceptual guides explaining the design and security of the __charm_name__ charm. 
+   :description: Conceptual guides explaining the design and security of the mariadb-k8s charm. 
 
 .. _explanation_index:
 
@@ -12,7 +12,7 @@ Explanation
          or subsections.
 
 The pages in this section provide additional context and deeper understanding
-of foundational topics and concepts related to the __charm_name__ charm.
+of foundational topics and concepts related to the ``mariadb-k8s`` charm.
 
 .. vale Canonical.013-Spell-out-numbers-below-10 = NO
 

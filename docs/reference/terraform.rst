@@ -1,5 +1,5 @@
 .. meta::
-   :description: Technical reference for the Terraform module available for deploying the __charm_name__ charm.
+   :description: Technical reference for the Terraform module available for deploying the mariadb-k8s charm.
 
 .. _reference_terraform:
 

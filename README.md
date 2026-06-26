@@ -1,77 +1,86 @@
-<!--
-Avoid using this README file for information that is maintained or published elsewhere, e.g.:
-
-* metadata.yaml > published on Charmhub
-* documentation > published on (or linked to from) Charmhub
-* detailed contribution guide > documentation or CONTRIBUTING.md
-
-Use links instead.
--->
-# Platform engineering charm template
+# MariaDB k8s operator
 <!-- Use this space for badges -->
 
-Describe your charm in 1-2 sentences. Include the software that the charm deploys (if applicable), and the substrate (VM/K8s).
+> **⚠️ Experimental — not for production use**
+>
+> This charm is under active development and intended solely as a **temporary placeholder**
+> to support the [Frappe HRMS K8s charm](https://github.com/canonical/frappe-hrms-k8s-operator)
+> while it awaits native PostgreSQL / MySQL support. It is **not** a general-purpose MariaDB
+> operator and should not be relied upon in production environments.
 
-Like any Juju charm, this charm supports one-line deployment, configuration, integration, scaling, and more. For Charmed {Name}, this includes:
-* list or summary of app-specific features
+A Kubernetes charm that deploys and manages [MariaDB 10.6](https://mariadb.org/) via Pebble on any Juju K8s substrate.
 
-For information about how to deploy, integrate, and manage this charm, see the Official [platform-engineering-charm-template Documentation](external link).
+Like any Juju charm, this charm supports one-line deployment, configuration, integration, scaling, and more. For the MariaDB K8s Operator, this includes:
+* Automated first-boot initialisation of the MariaDB data directory
+* Secure auto-generated root password stored as a Juju secret
+* On-demand database and user provisioning via the `database` relation (`mysql_client` interface)
+* Idempotent reconciliation — no `defer()` required
+
+For information about how to deploy, integrate, and manage this charm, see the Official [MariaDB K8s Operator Documentation](https://discourse.charmhub.io).
 
 ## Get started
-<!--If the charm already contains a relevant how-to guide or tutorial in its documentation,
-use this section to link the documentation. You don’t need to duplicate documentation here.
-If the tutorial is more complex than getting started, then provide brief descriptions of the
-steps needed for the simplest possible deployment. Make sure to include software and hardware
-prerequisites.
 
-This section could be structured in the following way:
+### Prerequisites
 
-### Set up
-<Steps for setting up the environment (e.g. via Multipass)>
+* A Juju K8s controller (MicroK8s or any CAPI-backed cluster)
+* `charmcraft` and `rockcraft` installed
+* `juju` CLI
 
-### Deploy
-<Steps for deploying the charm>
+### Build the OCI image
 
--->
+```bash
+cd mariadb-k8s-operator
+rockcraft pack
+skopeo --insecure-policy copy --dest-tls-verify=false \
+    oci-archive:mariadb_10.6_amd64.rock \
+    docker://localhost:32000/mariadb-k8s:latest
+```
+
+### Build and deploy the charm
+
+```bash
+charmcraft pack
+juju add-model mariadb-dev
+juju deploy ./mariadb-k8s_ubuntu-22.04-amd64.charm \
+    --resource mariadb-image=localhost:32000/mariadb-k8s:latest
+juju status --watch 5s
+```
 
 ### Basic operations
-<!--Brief walkthrough of performing standard configurations or operations.
 
-Use this section is to emphasize features or capabilities of the charm.
-Link to any relevant how-to guides here.
+Wait for the unit to reach `active/idle`, then integrate with a consumer charm:
 
-Use this section to provide information on important actions, required configurations, or
-other operations the user should know about. You don’t need to list every action or configuration.
-Link the Charmhub documentation for actions and configurations if you write about them.
+```bash
+juju deploy frappe-hrms-k8s
+juju integrate mariadb-k8s frappe-hrms-k8s
+```
 
-You may also want to link to the `charmcraft.yaml` file here.
--->
+The charm creates a dedicated MariaDB database and user for each integration and writes the credentials to the relation data automatically.
 
-## Integrations (optional)
-<!-- Information about particularly relevant interfaces, endpoints or libraries related to the
-charm. For example, peer relation endpoints required by other charms for integration.
+## Integrations
 
-Otherwise, include a link the Charmhub documentation on integrations.
---> 
+| Endpoint | Interface | Role | Description |
+|---|---|---|---|
+| `database` | `mysql_client` | provides | Provision databases for consumer charms |
+| `mariadb-peers` | `mariadb-peers` | peer | Share root-password secret URI between units |
 
 ## Learn more
-<!-- 
-Provide a list of resources, including the official documentation, developer documentation,
-an official website for the software and a troubleshooting guide. Note that this list is not
-exhaustive or always relevant for every charm. If there is no official troubleshooting guide,
-include a link to the relevant Matrix channel.
--->
 
-* [Read more](charm docs) <!--Link to the charm's official documentation-->
-* [Developer documentation](developer docs) <!--Link to any developer documentation (could be upstream)-->
-* [Official webpage](official site) <!--(Optional) Link to official upstream webpage/blog/marketing content--> 
-* [Troubleshooting](link to troubleshooting docs) <!--(Optional) Link to a page or section about troubleshooting/FAQ-->
+* [Charmhub page](https://charmhub.io/mariadb-k8s)
+* [MariaDB documentation](https://mariadb.com/kb/en/documentation/)
+* [Juju documentation](https://documentation.ubuntu.com/juju/)
+* [Rockcraft documentation](https://documentation.ubuntu.com/rockcraft/stable/)
+* [Troubleshooting](https://matrix.to/#/#charmhub-charmdev:ubuntu.com)
 
 ## Project and community
-* [Issues](github issues) <!--Link to GitHub issues (if applicable)-->
-* [Contributing](contribution guide) <!--Link to any contribution guides, preferably for the source code--> 
-* [Matrix](applicable link) <!--Link to contact info (if applicable), e.g. Matrix channel-->
-* [Launchpad](applicable link) <!--Link to Launchpad (if applicable)-->
 
-## Licensing and trademark (optional)
+* [Issues](https://github.com/canonical/mariadb-k8s-operator/issues)
+* [Contributing](CONTRIBUTING.md)
+* [Matrix](https://matrix.to/#/#charmhub-charmdev:ubuntu.com)
+* [Launchpad](https://launchpad.net/~canonical-is-devops)
+
+## Licensing
+
+The MariaDB K8s Operator is distributed under the [Apache 2.0 licence](LICENSE).
+MariaDB itself is distributed under the [GPL-2.0 licence](https://mariadb.com/kb/en/licensing-faq/).
 

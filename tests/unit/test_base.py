@@ -3,92 +3,171 @@
 
 # Learn more about testing at: https://ops.readthedocs.io/en/latest/explanation/testing.html
 
-"""Unit tests."""
+"""Unit tests for the MariaDB K8s charm using the scenario framework."""
 
-import typing
+from unittest.mock import MagicMock
 
 import ops
 import ops.testing
 
-from charm import Charm
+from charm import CONTAINER_NAME, MARIADB_PORT, MariaDBCharm
+from workload import MariaDBWorkload, database_endpoint, generate_password
+
+# ---------------------------------------------------------------------------
+# Pebble-not-ready: container cannot connect
+# ---------------------------------------------------------------------------
 
 
-def test_reconcile_on_pebble_ready():
+def test_waiting_when_pebble_not_ready():
+    """Unit should be Waiting when the container is not yet reachable."""
+    ctx = ops.testing.Context(MariaDBCharm)
+    container = ops.testing.Container(name=CONTAINER_NAME, can_connect=False)
+    state_in = ops.testing.State(containers={container})
+    state_out = ctx.run(ctx.on.config_changed(), state_in)
+    assert state_out.unit_status == ops.testing.WaitingStatus("Waiting for Pebble")
+
+
+# ---------------------------------------------------------------------------
+# Port is opened in reconcile
+# ---------------------------------------------------------------------------
+
+
+def test_mariadb_port_opened():
+    """The charm must open TCP 3306 on config-changed."""
+    ctx = ops.testing.Context(MariaDBCharm)
+    container = ops.testing.Container(name=CONTAINER_NAME, can_connect=False)
+    state_in = ops.testing.State(containers={container})
+    state_out = ctx.run(ctx.on.config_changed(), state_in)
+    opened = state_out.opened_ports
+    assert any(p.port == MARIADB_PORT and p.protocol == "tcp" for p in opened)
+
+
+# ---------------------------------------------------------------------------
+# generate_password helper
+# ---------------------------------------------------------------------------
+
+
+def test_generate_password_length():
+    pw = generate_password(32)
+    assert len(pw) == 32
+
+
+def test_generate_password_uniqueness():
+    assert generate_password() != generate_password()
+
+
+# ---------------------------------------------------------------------------
+# database_endpoint helper
+# ---------------------------------------------------------------------------
+
+
+def test_database_endpoint():
+    ep = database_endpoint("mariadb-k8s")
+    assert "mariadb-k8s" in ep
+    assert "3306" in ep
+
+
+# ---------------------------------------------------------------------------
+# CharmState.from_charm - no pending relations
+# ---------------------------------------------------------------------------
+
+
+def test_charm_state_no_relations():
+    """CharmState should show no pending databases when no relations exist."""
+    from state import CharmState
+
+    charm = MagicMock()
+    charm.unit.is_leader.return_value = True
+    charm.model.relations.get.return_value = []
+    charm.model.get_relation.return_value = None
+
+    container = MagicMock()
+    container.can_connect.return_value = True
+
+    state = CharmState.from_charm(charm, container, MagicMock())
+
+    assert state.is_leader is True
+    assert state.container_ready is True
+    assert state.pending_databases == {}
+    assert state.provisioned_relation_ids == set()
+    assert state.root_password is None
+
+
+# ---------------------------------------------------------------------------
+# MariaDBWorkload.is_ready
+# ---------------------------------------------------------------------------
+
+
+def test_workload_not_ready_when_container_disconnected():
+    container = MagicMock()
+    container.can_connect.return_value = False
+    assert MariaDBWorkload(container).is_ready() is False
+
+
+def test_workload_not_ready_when_check_down():
+    container = MagicMock()
+    container.can_connect.return_value = True
+    check = MagicMock()
+    check.status = ops.pebble.CheckStatus.DOWN
+    container.get_check.return_value = check
+    assert MariaDBWorkload(container).is_ready() is False
+
+
+def test_workload_ready_when_check_up():
+    container = MagicMock()
+    container.can_connect.return_value = True
+    check = MagicMock()
+    check.status = ops.pebble.CheckStatus.UP
+    container.get_check.return_value = check
+    assert MariaDBWorkload(container).is_ready() is True
+
+
+# ---------------------------------------------------------------------------
+# MariaDBWorkload.configure_pebble_layer - no restart when unchanged
+# ---------------------------------------------------------------------------
+
+
+def test_workload_configure_no_restart_when_unchanged():
+    """Replan should not be called if the service is already running and the
+    layer has not changed.
     """
-    arrange: State with the container httpbin.
-    act: Run httpbin_pebble_ready hook.
-    assert: The unit is active and the httpbin container service is active.
-    """
-    context = ops.testing.Context(
-        charm_type=Charm,
-    )
-    container = ops.testing.Container(name="httpbin", can_connect=True)  # type: ignore[call-arg]
-    base_state: dict[str, typing.Any] = {
-        "config": {"log-level": "info"},
-        "containers": {container},
+    container = MagicMock()
+    container.can_connect.return_value = True
+
+    svc_dict = {
+        "override": "replace",
+        "summary": "MariaDB database server",
+        "command": "/usr/local/bin/start-mariadb.sh",
+        "startup": "enabled",
+        "environment": {"MYSQL_ROOT_PASSWORD": "secret"},  # nosec B105
+        "on-check-failure": {"mariadb-ready": "restart"},
     }
-    state_in = ops.testing.State(**base_state)
-    state_out = context.run(context.on.pebble_ready(container), state_in)
-    assert state_out.unit_status == ops.testing.ActiveStatus()
-    # Check the service was started:
-    assert (
-        state_out.get_container(container.name).service_statuses["httpbin"]
-        == ops.pebble.ServiceStatus.ACTIVE
-    )
+    mock_plan = MagicMock()
+    mock_plan.to_dict.return_value = {"services": {"mariadb": svc_dict}}
+    container.get_plan.return_value = mock_plan
+
+    svc = MagicMock()
+    svc.is_running.return_value = True
+    container.get_service.return_value = svc
+
+    MariaDBWorkload(container).configure_pebble_layer("secret")
+    container.replan.assert_not_called()
 
 
-def test_reconcile_on_config_changed_valid():
-    """
-    arrange: State with the container httpbin and valid config change.
-    act: Run config_changed hook (which calls reconcile).
-    assert: The unit is active and configuration is applied.
-    """
-    context = ops.testing.Context(
-        charm_type=Charm,
-    )
-    container = ops.testing.Container(name="httpbin", can_connect=True)  # type: ignore[call-arg]
-    base_state: dict[str, typing.Any] = {
-        "config": {"log-level": "debug"},
-        "containers": {container},
-    }
-    state_in = ops.testing.State(**base_state)
-    state_out = context.run(context.on.config_changed(), state_in)
-    assert state_out.unit_status == ops.testing.ActiveStatus()
+# ---------------------------------------------------------------------------
+# MariaDBWorkload.create_database - exec is called
+# ---------------------------------------------------------------------------
 
 
-def test_reconcile_on_config_changed_invalid():
-    """
-    arrange: State with the container httpbin and invalid config.
-    act: Run config_changed hook.
-    assert: The unit is blocked due to invalid configuration.
-    """
-    context = ops.testing.Context(
-        charm_type=Charm,
-    )
-    container = ops.testing.Container(name="httpbin", can_connect=True)  # type: ignore[call-arg]
-    base_state: dict[str, typing.Any] = {
-        "config": {"log-level": "foobar"},
-        "containers": {container},
-    }
-    state_in = ops.testing.State(**base_state)
-    state_out = context.run(context.on.config_changed(), state_in)
-    assert state_out.unit_status.name == ops.testing.BlockedStatus().name
+def test_workload_create_database_calls_exec():
+    container = MagicMock()
+    proc = MagicMock()
+    proc.wait_output.return_value = ("", "")
+    container.exec.return_value = proc
 
+    MariaDBWorkload(container).create_database("mydb", "myuser", "mypass", "rootpass")
 
-def test_reconcile_container_not_ready():
-    """
-    arrange: State with container that cannot connect.
-    act: Run config_changed hook.
-    assert: The unit is waiting for Pebble API.
-    """
-    context = ops.testing.Context(
-        charm_type=Charm,
-    )
-    container = ops.testing.Container(name="httpbin", can_connect=False)  # type: ignore[call-arg]
-    base_state: dict[str, typing.Any] = {
-        "config": {"log-level": "info"},
-        "containers": {container},
-    }
-    state_in = ops.testing.State(**base_state)
-    state_out = context.run(context.on.config_changed(), state_in)
-    assert state_out.unit_status == ops.testing.WaitingStatus("waiting for Pebble API")
+    container.exec.assert_called_once()
+    cmd = container.exec.call_args[0][0]
+    assert "mariadb" in cmd
+    assert "--user=root" in cmd

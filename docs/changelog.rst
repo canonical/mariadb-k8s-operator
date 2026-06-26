@@ -1,5 +1,5 @@
 .. meta::
-   :description: View the changelog for the __charm_name__ charm, including all versions and changes.
+   :description: View the changelog for the mariadb-k8s charm, including all versions and changes.
 
 .. _changelog:
 

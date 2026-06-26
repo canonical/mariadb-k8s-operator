@@ -1,9 +1,9 @@
 .. meta::
-   :description: A step-by-step tutorial for deploying the __charm_name__ charm for the first time.
+   :description: A step-by-step tutorial for deploying the mariadb-k8s charm for the first time.
 
 .. _tutorial_basic_deployment:
 
-Deploy the __charm_name__ charm for the first time
+Deploy the ``mariadb-k8s`` charm for the first time
 ==================================================
 
 .. TODO: 1-2 sentences that introduce the charm and outlines what the tutorial will cover.
