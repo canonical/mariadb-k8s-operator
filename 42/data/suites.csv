@@ -1,0 +1,6 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"
+    arrange: A Juju model with the mariadb-k8s charm file.
+    act: Deploy the charm.
+    assert: The application reaches active/idle.
+    ","29303","test_deploy","tests.integration","2026-06-27","passed","2026-06-27","","test_charm","",""
