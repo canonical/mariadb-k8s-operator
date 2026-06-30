@@ -1,0 +1,18 @@
+version_schema: 2
+
+changes:
+- title: Fixed MariaDB container startup failures
+  author: swetha1654
+  type: bugfix
+  description: >
+    Fixed MariaDB service failing to start inside the container due to a missing
+    mysql user/group, a missing explicit datadir argument to mariadbd, and an
+    unhandled ModelError in the Pebble readiness check. Added runtime creation of
+    the mysql user/group in the startup script, passed --datadir consistently to
+    all mariadbd invocations, and hardened the is_ready() method to tolerate
+    missing Pebble checks during early lifecycle hooks.
+  urls:
+    pr:
+      - "https://github.com/canonical/mariadb-k8s-operator/pull/10"
+  visibility: public
+  highlight: false
