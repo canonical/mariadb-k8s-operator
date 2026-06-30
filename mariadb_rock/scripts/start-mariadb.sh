@@ -16,10 +16,19 @@ if [ -z "${MYSQL_ROOT_PASSWORD:-}" ]; then
     exit 1
 fi
 
+# Ensure mysql user and group exist (required for running mariadb)
+if ! id mysql &>/dev/null; then
+    groupadd -r mysql 2>/dev/null || true
+    useradd -r -g mysql mysql 2>/dev/null || true
+fi
+
 mkdir -p /run/mysqld
 chown mysql:mysql /run/mysqld
 
 if [ ! -d "${DATADIR}/mysql" ]; then
+    mkdir -p "${DATADIR}"
+    chown mysql:mysql "${DATADIR}"
+
     mariadb-install-db \
         --user=mysql \
         --datadir="${DATADIR}" \
@@ -28,6 +37,7 @@ if [ ! -d "${DATADIR}/mysql" ]; then
 
     mariadbd \
         --user=mysql \
+        --datadir="${DATADIR}" \
         --skip-networking \
         --socket="${SOCKET}" \
         --pid-file=/run/mysqld/init.pid &
@@ -52,4 +62,4 @@ SQL
     wait "${INIT_PID}" 2>/dev/null || true
 fi
 
-exec mariadbd --user=mysql
+exec mariadbd --user=mysql --datadir="${DATADIR}"
