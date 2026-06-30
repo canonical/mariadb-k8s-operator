@@ -105,7 +105,7 @@ class MariaDBWorkload:
         try:
             check = self._container.get_check("mariadb-ready")
             return check.status == ops.pebble.CheckStatus.UP
-        except ops.pebble.APIError:
+        except (ops.pebble.APIError, ops.ModelError):
             return False
 
     # ── Database / user provisioning ──────────────────────────────────────────

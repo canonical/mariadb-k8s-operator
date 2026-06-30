@@ -23,6 +23,8 @@ parts:
       - mariadb-client
       - pwgen
       - procps
+      - adduser
+      - passwd
 
   startup-script:
     plugin: dump
