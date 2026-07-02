@@ -63,6 +63,7 @@ class MariaDBCharm(ops.CharmBase):
             self.on.config_changed,
             self.on.leader_elected,
             self.on.secret_changed,
+            self.on.update_status,
             self.on[PEER_RELATION].relation_changed,
             self._database_provides.on.database_requested,
         ]:
@@ -128,7 +129,7 @@ class MariaDBCharm(ops.CharmBase):
         if not state.is_leader:
             return
 
-        if not self._workload.is_ready():
+        if not self._workload.is_ready(root_password):
             logger.debug("MariaDB not yet accepting connections; skipping provisioning")
             return
 
@@ -152,7 +153,7 @@ class MariaDBCharm(ops.CharmBase):
 
         state = CharmState.from_charm(self, self._container, self._database_provides)
         root_password = state.root_password
-        if root_password is None or not self._workload.is_ready():
+        if root_password is None or not self._workload.is_ready(root_password):
             logger.warning(
                 "Cannot drop database for relation %d: MariaDB unavailable", event.relation.id
             )
@@ -196,7 +197,7 @@ class MariaDBCharm(ops.CharmBase):
             event.add_status(ops.WaitingStatus("Waiting for root password secret"))
             return
 
-        if not self._workload.is_ready():
+        if not self._workload.is_ready(state.root_password):
             event.add_status(ops.WaitingStatus("Waiting for MariaDB to start"))
             return
 

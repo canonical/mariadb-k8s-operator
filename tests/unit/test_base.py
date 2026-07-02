@@ -101,25 +101,47 @@ def test_charm_state_no_relations():
 def test_workload_not_ready_when_container_disconnected():
     container = MagicMock()
     container.can_connect.return_value = False
-    assert MariaDBWorkload(container).is_ready() is False
+    assert MariaDBWorkload(container).is_ready("rootpass") is False
 
 
-def test_workload_not_ready_when_check_down():
+def test_workload_not_ready_when_sql_fails():
     container = MagicMock()
     container.can_connect.return_value = True
-    check = MagicMock()
-    check.status = ops.pebble.CheckStatus.DOWN
-    container.get_check.return_value = check
-    assert MariaDBWorkload(container).is_ready() is False
+    container.exec.side_effect = ops.pebble.ExecError(
+        ["mariadb"], 1, "", "ERROR 2002 (HY000): Can't connect to server on '127.0.0.1' (115)"
+    )
+    # Use a zero timeout so the retry loop exits immediately.
+    assert MariaDBWorkload(container).is_ready("rootpass", timeout=0) is False
 
 
-def test_workload_ready_when_check_up():
+def test_workload_ready_when_sql_succeeds():
     container = MagicMock()
     container.can_connect.return_value = True
-    check = MagicMock()
-    check.status = ops.pebble.CheckStatus.UP
-    container.get_check.return_value = check
-    assert MariaDBWorkload(container).is_ready() is True
+    proc = MagicMock()
+    proc.wait_output.return_value = ("1", "")
+    container.exec.return_value = proc
+    assert MariaDBWorkload(container).is_ready("rootpass") is True
+
+
+def test_workload_ready_after_retry():
+    """is_ready should succeed on the second attempt without sleeping forever."""
+    from unittest.mock import patch
+
+    container = MagicMock()
+    container.can_connect.return_value = True
+
+    proc = MagicMock()
+    proc.wait_output.return_value = ("1", "")
+    container.exec.side_effect = [
+        ops.pebble.ExecError(["mariadb"], 1, "", "not ready"),
+        proc,
+    ]
+
+    with (
+        patch("workload.time.sleep"),
+        patch("workload.time.monotonic", side_effect=[0.0, 1.0, 1.0]),
+    ):
+        assert MariaDBWorkload(container).is_ready("rootpass", timeout=60) is True
 
 
 # ---------------------------------------------------------------------------
