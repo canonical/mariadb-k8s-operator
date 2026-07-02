@@ -1,0 +1,20 @@
+# Copyright 2026 Canonical Ltd.
+# See LICENSE file for licensing details.
+
+version: 1
+rocks:
+- name: mariadb
+  rockcraft-yaml: mariadb_rock/rockcraft.yaml
+  platforms:
+  - arch: amd64
+charms:
+- name: mariadb-k8s
+  charmcraft-yaml: charmcraft.yaml
+  channel: latest/edge
+  resources:
+    mariadb-image:
+      type: oci-image
+      rock: mariadb
+  platforms:
+  - arch: amd64
+snaps: []

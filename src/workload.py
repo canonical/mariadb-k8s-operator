@@ -14,6 +14,7 @@ service is only restarted when the layer actually changes.
 import logging
 import secrets
 import string
+import time
 from typing import Optional
 
 import ops
@@ -98,15 +99,34 @@ class MariaDBWorkload:
 
     # ── Readiness ─────────────────────────────────────────────────────────────
 
-    def is_ready(self) -> bool:
-        """Return True when MariaDB is accepting TCP connections."""
+    def is_ready(self, root_password: str, timeout: int = 60) -> bool:
+        """Return True when MariaDB is accepting connections and root auth works.
+
+        Retries the SQL ping every 2 seconds for up to *timeout* seconds so
+        that transient startup delays do not cause hooks to silently skip
+        provisioning and never retry.
+        """
         if not self._container.can_connect():
             return False
-        try:
-            check = self._container.get_check("mariadb-ready")
-            return check.status == ops.pebble.CheckStatus.UP
-        except (ops.pebble.APIError, ops.ModelError):
-            return False
+        deadline = time.monotonic() + timeout
+        while True:
+            try:
+                proc = self._container.exec(
+                    [
+                        "mariadb",
+                        "--user=root",
+                        "--host=127.0.0.1",
+                        "--connect-timeout=2",
+                        "--execute=SELECT 1;",
+                    ],
+                    environment={"MYSQL_PWD": root_password},
+                )
+                proc.wait_output()
+                return True
+            except (ops.pebble.ExecError, ops.pebble.APIError):
+                if time.monotonic() >= deadline:
+                    return False
+                time.sleep(2)
 
     # ── Database / user provisioning ──────────────────────────────────────────
 

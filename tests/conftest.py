@@ -10,7 +10,6 @@ def pytest_addoption(parser):
     Args:
         parser: Pytest parser.
     """
-    parser.addoption("--charm-file", action="store")
     parser.addoption(
         "--keep-models",
         action="store_true",
@@ -27,10 +26,4 @@ def pytest_addoption(parser):
         "--model",
         action="store",
         help="temporarily-created model name",
-    )
-    parser.addoption(
-        "--mariadb-image",
-        action="store",
-        default=None,
-        help="OCI image reference for the MariaDB rock (passed by CI).",
     )
