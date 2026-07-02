@@ -14,6 +14,7 @@ charms:
   resources:
     mariadb-image:
       type: oci-image
+      rock: mariadb
   platforms:
   - arch: amd64
 snaps: []
