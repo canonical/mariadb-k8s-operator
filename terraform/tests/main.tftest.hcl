@@ -12,7 +12,7 @@ run "basic_deploy" {
     model_uuid = run.setup_tests.model_uuid
     channel    = "latest/edge"
     # renovate: depName="mariadb-k8s"
-    revision = 6
+    revision = 8
   }
 
   assert {
