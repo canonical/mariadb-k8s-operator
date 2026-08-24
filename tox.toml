@@ -110,6 +110,8 @@ dependency_groups = [ "static" ]
 
 [env.integration]
 description = "Run integration tests"
+runner = "uv-venv-lock-runner"
+package = "skip"
 commands = [
   [
     "pytest",
