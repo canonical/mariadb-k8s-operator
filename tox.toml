@@ -4,7 +4,7 @@
 skipsdist = true
 skip_missing_interpreters = true
 envlist = [ "lint", "unit", "static", "coverage-report" ]
-requires = [ "tox>=4.21" ]
+requires = [ "tox>=4.21", "tox-uv" ]
 no_package = true
 
 [env_run_base]
